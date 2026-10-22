@@ -1,0 +1,7 @@
+todo.md
+.DS_Store
+output/
+build/
+data/
+.clangd
+.vscode/
