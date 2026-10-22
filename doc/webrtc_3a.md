@@ -1,28 +1,12 @@
 # <div align="center">webrtc_3a.md</div>
 
-之前自以为掌握了 webrtc 的 aec，ns 算法便掌握了语音前端的精髓，但实际上还远远不够，算法工程师应该要掌握整个音频链路，因此在此处重新整理整个链路以及其上的所有算法和技巧。本工程分析采用的算法版本是 aec3，ns，agc2，采样率为 48 khz 以获得尽可能多的算法信息。
+只要是在音频算法领域工作，webrtc 就是绝对不容错过的绝佳学习样本。之前自以为掌握了 webrtc 的 aec，ns 算法便掌握了语音前端的精髓，但实际上还远远不够，算法工程师应该要掌握整个音频链路，尤其是那些工程化的有趣技巧。因此在此处重新整理整个链路以及其上的所有算法和技巧。本工程分析采用的算法版本是 aec3，ns，agc2，采样率为 48 khz 以获得尽可能多的算法信息。
 
 ---
 
 ## 1. 双工总览
 
-```
-近端讲话人                          远端讲话人
-    │                                    │
-    ▼ mic                                ▼
-[采集 ADC]                          [对端下行 RTP]
-    │                                    │
-    ▼                                    ▼
-┌────────────────────────────────────────────────────────────┐
-│  近端设备                                                  │
-│                                                            │
-│  capture ──► APM(3A…) ──► Opus encode ──► RTP ──► 网络     │
-│                 ▲                                          │
-│                 │ reverse / render 参考（扬声器将播内容）  │
-│  网络 RTP ──► NetEQ ──► Opus decode ──► 扬声器 DAC         │
-│                                                            │
-└────────────────────────────────────────────────────────────┘
-```
+![发送走 capture；接收在 GetAudio 内解码，reverse 取将播 PCM](image/apm_fig_duplex.png)
 
 两条流必须分清：
 
@@ -186,7 +170,7 @@ ProcessCapture (采集线程)  每个 4 ms block：
 |--|--|
 | **输入** | 当前 capture block：`float[C][3][64]`；render 历史队列 |
 | **对齐输出** | 与 capture 同时刻对齐的 render block（及频谱缓冲），供 Subtractor 使用 |
-| **典型时延范围** | 手机/蓝牙常见数十～两百 ms；估计不稳则 ERLE 上不去 |
+| **时延** | 对齐不稳时 ERLE 上不去 |
 
 #### 2.7.4 线性回声消去 `Subtractor`（自适应滤波）
 
@@ -196,7 +180,6 @@ ProcessCapture (采集线程)  每个 4 ms block：
 | **输入** | 对齐后的 render 谱 + 近端 capture block / 谱 |
 | **输出** | 回声估计 $\hat y$；误差 $e = d - \hat y$（时域/频域）；可写出 linear output |
 | **更新** | 按 ERLE / 双讲 / 饱和等状态调节步长；双讲时降速或冻结，防把近端语音学进滤波器 |
-| **能力** | 线性部分常可抹 20～40 dB 回声；扬声器非线性、裁剪残留留给下一步 |
 
 主文件：`subtractor.cc`、`adaptive_fir_filter*.cc`。
 
@@ -277,12 +260,9 @@ ProcessCapture (采集线程)  每个 4 ms block：
 
 ## 3. 反向流：AEC 参考（render / reverse）
 
-```
-NetEQ/解码 PCM ──► 扬声器 DAC
-              └──► APM::ProcessReverseStream / AnalyzeReverseStream
-                        └─ Split（若尚未分带）
-                        └─ AEC3::AnalyzeRender → render 队列（§2.7.2）
-```
+参考是 §1 里那块 **10 ms PCM**：`GetAudio` 的出口，即将送进扬声器的同一缓冲。进 APM 之后：
+
+`ProcessReverseStream` / `AnalyzeReverseStream` → Split（若尚未分带）→ `AEC3::AnalyzeRender` → render 队列（§2.7.2）。详见 §5。
 
 | 步骤 | 输入 | 输出 |
 |------|------|------|
@@ -316,31 +296,13 @@ NetEQ/解码 PCM ──► 扬声器 DAC
 
 ---
 
-## 5. 接收侧：解包 → NetEQ → 解码 → 播放
+## 5. 接收侧：GetAudio 解出 PCM 再播放
 
-### 5.1 收包 / NetEQ
+![GetAudio 在 NetEQ 内解码，出口 PCM 同时进扬声器和 APM](image/apm_fig_decode.png)
 
-| | |
-|--|--|
-| **输入** | 网络 RTP（抖动、乱序、丢包） |
-| **输出** | 按播放时钟拉取的 **10 ms** 解码前/后音频（NetEQ `GetAudio`） |
-| **职责** | 抖动缓冲、丢包隐藏（PLC）、配合 FEC/NACK、可参与 A/V sync |
+`InsertPacket` 把 RTP 载荷放进 NetEQ 的抖动缓冲。播放线程每 10 ms 调用 `GetAudio`：有包时在这次调用里做 Opus 解码，丢包时走 PLC。返回的 `AudioFrame` 是 48 kHz PCM（单声道 480 点）。这份 PCM 送扬声器，同一缓冲交给 `ProcessReverseStream`，作为 §3 的 reverse 参考。
 
-### 5.2 Opus 解码
-
-| | |
-|--|--|
-| **输入** | NetEQ 给出的 Opus 帧（或 PLC 所需状态） |
-| **输出** | 48 kHz PCM，块长与播放设备拉取一致（常 10 ms） |
-
-### 5.3 渲染
-
-| | |
-|--|--|
-| **输入** | 解码 PCM |
-| **输出** | 经 OS 音频图 → DAC → 扬声器；**同时**复制为 §3 的 reverse 参考 |
-
-接收侧**不再跑**捕获 3A（远端已在对端做过）；本端只做 NetEQ + 解码 + 播放，以及为本地 AEC 提供参考。
+NetEQ 同时做抖动缓冲、丢包隐藏，配合 FEC/NACK，也可参与音画同步。接收侧不再跑捕获 3A（远端已在对端处理过）；本端取流、播放，并为本地 AEC 提供参考。
 
 ---
 
@@ -367,7 +329,7 @@ NetEQ/解码 PCM ──► 扬声器 DAC
 1. **顺序不能乱**：高通 → AEC → NS → AGC。NS 在 AEC 前会把回声学进噪声模型；AGC 在 AEC 前会改回声路径增益。  
 2. **APM 10 ms vs Opus 20 ms**：处理按 10 ms；编码常按 20 ms 组帧，多 10 ms 组帧延迟。  
 3. **reverse 时延**：蓝牙 / USB 声卡缓冲变化大，`stream_delay_ms` 不准时双讲与残余回声都会变差。  
-4. **口到耳**：采集 + APM + Opus20ms + 网络 + NetEQ + 解码播放；NetEQ 缓冲随网络变长，是通话「发闷/变慢」的主因之一。
+4. **口到耳**：采集 + APM + Opus 20 ms + 网络 + NetEQ 取流播放；NetEQ 缓冲随网络变长，是通话「发闷/变慢」的主因之一。
 
 ---
 

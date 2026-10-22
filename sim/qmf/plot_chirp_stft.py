@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""STFT of the linear-chirp empty run written by qmf_chirp."""
+"""Build qmf_chirp, run the linear-chirp empty reconstruction, plot the STFT."""
 
 import argparse
+import subprocess
 from pathlib import Path
 
 import matplotlib
@@ -34,23 +35,39 @@ def stft_db(x: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     return spec_db, freqs, times
 
 
+def build_and_run(root: Path, out_dir: Path) -> None:
+    build_dir = root / "output" / "qmf"
+    subprocess.check_call(
+        [
+            "cmake",
+            "-S",
+            str(root),
+            "-B",
+            str(build_dir),
+            "-DCMAKE_BUILD_TYPE=Release",
+        ]
+    )
+    subprocess.check_call(
+        ["cmake", "--build", str(build_dir), "--target", "qmf_chirp"]
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    subprocess.check_call([str(build_dir / "qmf_chirp"), str(out_dir)])
+
+
 def main() -> None:
     root = Path(__file__).resolve().parents[2]
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--in-dir",
-        type=Path,
-        default=root / "output" / "sim" / "qmf",
-    )
     parser.add_argument(
         "--out",
         type=Path,
         default=root / "doc" / "image" / "qmf_fig_chirp_stft.png",
     )
     args = parser.parse_args()
+    in_dir = root / "output" / "sim" / "qmf"
+    build_and_run(root, in_dir)
 
-    x = np.fromfile(args.in_dir / "in.f32", dtype=np.float32).astype(np.float64)
-    y = np.fromfile(args.in_dir / "out.f32", dtype=np.float32).astype(np.float64)
+    x = np.fromfile(in_dir / "in.f32", dtype=np.float32).astype(np.float64)
+    y = np.fromfile(in_dir / "out.f32", dtype=np.float32).astype(np.float64)
     if x.shape != y.shape or len(x) < N_FFT:
         raise SystemExit(f"bad lengths in={len(x)} out={len(y)}")
 
@@ -83,7 +100,7 @@ def main() -> None:
     fig.subplots_adjust(hspace=0.28, right=0.90, top=0.90)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.out, dpi=140, bbox_inches="tight")
-    copy = args.in_dir / "chirp_stft.png"
+    copy = in_dir / "chirp_stft.png"
     fig.savefig(copy, dpi=140, bbox_inches="tight")
     print("saved", args.out)
     print("saved", copy)
