@@ -2,6 +2,8 @@
 
 正如上一节所说，48 kHz 时 WebRTC 把 10 ms 全带拆成三分频带，入口是 `modules/audio_processing/three_band_filter_bank`。全带 480 点，分析后每带 160 点，带速率 16 kHz。
 
+ps:公式推导只是按照自己的理解进行简化版的推导，也许并不严谨。
+
 **全文符号表**
 
 ![全文符号表](image/band3_fig_symbols.png)
@@ -220,7 +222,7 @@ $$
 
 ## 3. 仿真
 
-摘自 `modules/audio_processing/three_band_filter_bank.cc`，放在 `band3/`。`RTC_DCHECK` 换成了 `assert`。
+摘自 `modules/audio_processing/three_band_filter_bank.cc`，放在 `band3/`。`RTC_DCHECK` 换成了 `assert`。当然代码还是建议看 webrtc 源码，码仓 https://github.com/liang-nian/webrtc_3a.git 这里看个笔记就行。
 
 ### 3.1 函数对应的公式
 
