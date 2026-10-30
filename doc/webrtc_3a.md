@@ -86,7 +86,7 @@ mic PCM
 | **滤波器** | WebRTC `three_band_filter_bank`（分析） | 同组综合 |
 | **名义带** | ≈0–8 / 8–16 / 16–24 kHz | — |
 
-AEC3 / NS 的主计算在分带域；AGC2 在合带后的全带上做。
+AEC3 / NS 的主计算在分带域；AGC2 在合带后的全带上做。滤波器组的推导、实例和扫频见 `doc/band3.md`。
 
 ### 2.6 NS `NoiseSuppressor`（★）
 
