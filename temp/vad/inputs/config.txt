@@ -1,0 +1,49 @@
+# 仿真配置（与 sim/vad/align_vad.py 及 2026-11-09 02:44 的 PCM 一致）
+
+webrtc_src eeb7e6beb2e20c5a273922fdf22b75a75cc28ad5
+chromium_third_party 63d42f6e6a54c9463fcb599001ca81ff2fd3dc8e
+cmake_build_type Release
+cxx_standard 20
+seed 20261109
+snr_db 10
+noise_distribution gaussian
+noise_sigma 483.37210429488954
+speech_rms 1528.5568069603091
+
+wav inputs/1089-134686-0000.wav
+wav_rate_hz 16000
+wav_channels 1
+wav_sampwidth_bytes 2
+wav_frames 166960
+wav_duration_s 10.435
+
+pcm_layout little-endian int16
+speech16 = wav samples
+silence16 = 16000 zeros at 16 kHz (1.0 s)
+pause16 = speech16[0:32000] + 8000 zeros + speech16[32000:]
+          inserted silence is 2.0 s to 2.5 s
+noise10db16 = clip(round(speech16 + N(0, sigma)), -32768, 32767)
+decimate8 = speech16[::2], declared rate 8000
+hold32 = repeat each speech16 sample twice, declared rate 32000
+hold48 = repeat each speech16 sample three times, declared rate 48000
+
+gmm_cases
+  speech16 silence16 pause16 noise10db16: 10/20/30 ms, modes 0 1 2 3
+  decimate8 hold32 hold48: 10/30 ms, modes 0 3
+gmm_invalid_rate 22050 frame_ms 10 mode 0 on speech16, expect exit 2
+
+rnn_cases
+  speech16 silence16 pause16 noise10db16 decimate8 hold48
+  frame 10 ms only
+  wrapper reset 1500 ms
+  non-24 kHz input goes through the extracted PushResampler
+  threshold used only for the agreement count: 0.95
+
+plots from the 02:44 run, copied in retained/figures/
+  vad_fig_speech.png  speech16, GMM mode 2 10 ms, RNN 16 kHz 10 ms
+  vad_fig_noise.png   speech16 vs noise10db16, same settings
+  vad_fig_pause.png   pause16, zoom 1.4 s to 3.2 s
+  vad_fig_diff.png    speech16 GMM mode 2 mismatch and RNN abs error
+
+checksums inputs/checksums.sha256
+2026-11-09 verification: each pcm file matches this construction from the wav.
