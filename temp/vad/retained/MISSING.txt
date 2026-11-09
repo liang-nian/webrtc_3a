@@ -1,0 +1,11 @@
+2026-11-09 02:44 UTC 那次 `python3 sim/vad/align_vad.py` 没有把下面几项写成文件：
+
+- 脚本的完整标准输出和标准错误。当时没有留下终端日志。
+- 逐帧的学习版输出、原版输出和逐帧误差。脚本只在标准输出里打印每个条件的帧数和总误差，不写逐帧表。
+
+因此 `rerun/` 是 09:36 UTC 用同一次编译留下的 `gmm_learn` / `rnn_learn`（学习版与 vad-ref）和 `output/sim/vad-align/*.s16` 再跑的，不是把缺失日志补写出来的。
+
+当时确实留下、并原样复制到这里的只有：
+
+- `align_summary.txt`
+- `figures/` 下四张 png（与 `doc/image/` 字节相同）
