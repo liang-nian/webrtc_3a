@@ -1,0 +1,75 @@
+rerun_started_utc 2026-11-09T09:36:06Z
+binaries
+  /workspace/output/vad/gmm_learn size=37936 mtime_utc=2026-11-09T02:44:15Z
+  /workspace/output/vad-ref/gmm_learn size=37936 mtime_utc=2026-11-09T02:44:14Z
+  /workspace/output/vad/rnn_learn size=131648 mtime_utc=2026-11-09T02:42:11Z
+  /workspace/output/vad-ref/rnn_learn size=131648 mtime_utc=2026-11-09T02:44:15Z
+GMM invalid rate learn exit=2
+GMM invalid rate ref exit=2
+GMM speech16_16000Hz_10ms_mode0 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=1024
+GMM speech16_16000Hz_10ms_mode1 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=1024
+GMM speech16_16000Hz_10ms_mode2 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=978
+GMM speech16_16000Hz_10ms_mode3 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=887
+GMM speech16_16000Hz_20ms_mode0 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=508
+GMM speech16_16000Hz_20ms_mode1 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=507
+GMM speech16_16000Hz_20ms_mode2 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=500
+GMM speech16_16000Hz_20ms_mode3 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=453
+GMM speech16_16000Hz_30ms_mode0 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=339
+GMM speech16_16000Hz_30ms_mode1 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=339
+GMM speech16_16000Hz_30ms_mode2 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=333
+GMM speech16_16000Hz_30ms_mode3 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=304
+GMM silence16_16000Hz_10ms_mode0 frames=100 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_10ms_mode1 frames=100 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_10ms_mode2 frames=100 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_10ms_mode3 frames=100 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_20ms_mode0 frames=50 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_20ms_mode1 frames=50 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_20ms_mode2 frames=50 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_20ms_mode3 frames=50 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_30ms_mode0 frames=33 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_30ms_mode1 frames=33 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_30ms_mode2 frames=33 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM silence16_16000Hz_30ms_mode3 frames=33 raw_mismatch=0 public_mismatch=0 public_speech_frames=0
+GMM pause16_16000Hz_10ms_mode0 frames=1093 raw_mismatch=0 public_mismatch=0 public_speech_frames=1041
+GMM pause16_16000Hz_10ms_mode1 frames=1093 raw_mismatch=0 public_mismatch=0 public_speech_frames=1041
+GMM pause16_16000Hz_10ms_mode2 frames=1093 raw_mismatch=0 public_mismatch=0 public_speech_frames=993
+GMM pause16_16000Hz_10ms_mode3 frames=1093 raw_mismatch=0 public_mismatch=0 public_speech_frames=904
+GMM pause16_16000Hz_20ms_mode0 frames=546 raw_mismatch=0 public_mismatch=0 public_speech_frames=517
+GMM pause16_16000Hz_20ms_mode1 frames=546 raw_mismatch=0 public_mismatch=0 public_speech_frames=516
+GMM pause16_16000Hz_20ms_mode2 frames=546 raw_mismatch=0 public_mismatch=0 public_speech_frames=511
+GMM pause16_16000Hz_20ms_mode3 frames=546 raw_mismatch=0 public_mismatch=0 public_speech_frames=462
+GMM pause16_16000Hz_30ms_mode0 frames=364 raw_mismatch=0 public_mismatch=0 public_speech_frames=345
+GMM pause16_16000Hz_30ms_mode1 frames=364 raw_mismatch=0 public_mismatch=0 public_speech_frames=345
+GMM pause16_16000Hz_30ms_mode2 frames=364 raw_mismatch=0 public_mismatch=0 public_speech_frames=338
+GMM pause16_16000Hz_30ms_mode3 frames=364 raw_mismatch=0 public_mismatch=0 public_speech_frames=313
+GMM noise10db16_16000Hz_10ms_mode0 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=911
+GMM noise10db16_16000Hz_10ms_mode1 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=909
+GMM noise10db16_16000Hz_10ms_mode2 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=853
+GMM noise10db16_16000Hz_10ms_mode3 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=781
+GMM noise10db16_16000Hz_20ms_mode0 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=435
+GMM noise10db16_16000Hz_20ms_mode1 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=428
+GMM noise10db16_16000Hz_20ms_mode2 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=405
+GMM noise10db16_16000Hz_20ms_mode3 frames=521 raw_mismatch=0 public_mismatch=0 public_speech_frames=399
+GMM noise10db16_16000Hz_30ms_mode0 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=294
+GMM noise10db16_16000Hz_30ms_mode1 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=286
+GMM noise10db16_16000Hz_30ms_mode2 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=258
+GMM noise10db16_16000Hz_30ms_mode3 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=257
+GMM decimate8_8000Hz_10ms_mode0 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=1014
+GMM decimate8_8000Hz_10ms_mode3 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=929
+GMM decimate8_8000Hz_30ms_mode0 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=339
+GMM decimate8_8000Hz_30ms_mode3 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=307
+GMM hold32_32000Hz_10ms_mode0 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=1024
+GMM hold32_32000Hz_10ms_mode3 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=890
+GMM hold32_32000Hz_30ms_mode0 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=340
+GMM hold32_32000Hz_30ms_mode3 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=304
+GMM hold48_48000Hz_10ms_mode0 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=1022
+GMM hold48_48000Hz_10ms_mode3 frames=1043 raw_mismatch=0 public_mismatch=0 public_speech_frames=888
+GMM hold48_48000Hz_30ms_mode0 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=336
+GMM hold48_48000Hz_30ms_mode3 frames=347 raw_mismatch=0 public_mismatch=0 public_speech_frames=311
+RNN speech16_16000Hz_10ms frames=1043 max_abs=0.000e+00 mean_abs=0.000e+00 nonzero=0 threshold_0.95_mismatch=0
+RNN silence16_16000Hz_10ms frames=100 max_abs=0.000e+00 mean_abs=0.000e+00 nonzero=0 threshold_0.95_mismatch=0
+RNN pause16_16000Hz_10ms frames=1093 max_abs=0.000e+00 mean_abs=0.000e+00 nonzero=0 threshold_0.95_mismatch=0
+RNN noise10db16_16000Hz_10ms frames=1043 max_abs=0.000e+00 mean_abs=0.000e+00 nonzero=0 threshold_0.95_mismatch=0
+RNN decimate8_8000Hz_10ms frames=1043 max_abs=0.000e+00 mean_abs=0.000e+00 nonzero=0 threshold_0.95_mismatch=0
+RNN hold48_48000Hz_10ms frames=1043 max_abs=0.000e+00 mean_abs=0.000e+00 nonzero=0 threshold_0.95_mismatch=0
+rerun_failures 0

@@ -234,12 +234,14 @@ ProcessCapture (采集线程)  每个 4 ms block：
 | **Input volume controller**（可选） | 根据电平建议/调整系统捕获音量 | 全带帧 + 当前 mic volume → recommended volume |
 | **Adaptive digital** | 自适应增益，把语音拉到目标响度 | `float[C][480]` → 同形（已增益） |
 | **Limiter** | 防削波 | 同形 |
-| **VAD / 语音概率** | 无 NS 时自带；有 NS 时可复用 | 控制自适应快慢 |
+| **VAD / 语音概率** | AGC2 自带 RNN-VAD（24 kHz）。本提交里 `use_internal_vad=true`，不读 NS 的语音概率 | 0.95 门限和 12 个相邻帧控制电平更新、增益上升 |
 
 | 对外 | |
 |--|--|
 | **输入** | 合带全带 `float[C][480]` @ 48 kHz |
 | **输出** | 同形 |
+
+RNN-VAD 的特征、GRU、静音门和 12 帧平滑见 `doc/vad.md`。它和 `common_audio/vad` 的 GMM、AGC1 的基音 VAD 不是同一个模块。
 
 ### 2.10 后处理（可选）
 
@@ -347,6 +349,8 @@ NetEQ 同时做抖动缓冲、丢包隐藏，配合 FEC/NACK，也可参与音�
 | 舒适噪声 | `modules/audio_processing/aec3/comfort_noise_generator.*` |
 | NS | `modules/audio_processing/ns/` |
 | AGC2 | `modules/audio_processing/agc2/` |
+| AGC2 RNN-VAD | `modules/audio_processing/agc2/rnn_vad/`、`modules/audio_processing/agc2/vad_wrapper.*`。笔记 `doc/vad.md` |
+| GMM-VAD | `common_audio/vad/`。笔记 `doc/gmm_vad.md`。不是 AGC2 那条 |
 | NetEQ | `modules/audio_coding/neteq/` |
 
 配置入口：`api/audio/audio_processing.h` 中 `AudioProcessing::Config`；AEC3 细参在 `api/audio/echo_canceller3_config.h`。
