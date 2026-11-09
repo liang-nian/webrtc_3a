@@ -1,6 +1,6 @@
 # webrtc_3a
 
-WebRTC 音频链路的笔记和仿真。笔记在 `doc/`。两带 QMF 在 `qmf/`，三分频在 `band3/`。仿真脚本在 `sim/qmf/`、`sim/band3/`，会自己用 CMake 编译，再跑扫频、出图。
+WebRTC 音频链路的笔记和仿真。笔记在 `doc/`。两带 QMF 在 `qmf/`，三分频在 `band3/`，AGC2 的 RNN-VAD 在 `vad/`。仿真脚本在 `sim/qmf/`、`sim/band3/`、`sim/vad/`，会自己用 CMake 编译，再跑仿真、出图。
 
 依赖：CMake 3.16、C/C++ 编译器、Python 3、NumPy、Matplotlib。在仓库根目录执行。
 
@@ -16,4 +16,10 @@ python3 sim/qmf/plot_chirp_stft.py
 
 ```bash
 python3 sim/band3/plot_chirp_stft.py
+```
+
+AGC2 RNN-VAD。24 kHz、3.2 s、S16 标度的合成信号，种子 `20261109`。按 10 ms 调用 `Agc2RnnVad::ProcessFrame`。笔记见 `doc/vad.md`。表写到 `output/sim/vad/*.csv` 和 `summary.txt`，图写到 `doc/image/vad_fig_prob.png`、`vad_fig_burst.png`、`vad_fig_pitch.png`，可执行文件在 `output/vad/`。`vad_check` 会一起跑。
+
+```bash
+python3 sim/vad/plot_vad.py
 ```

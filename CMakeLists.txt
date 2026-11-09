@@ -19,3 +19,15 @@ target_compile_features(band3 PUBLIC cxx_std_20)
 add_executable(band3_chirp sim/band3/band3_chirp.cc)
 target_link_libraries(band3_chirp PRIVATE band3)
 target_compile_features(band3_chirp PRIVATE cxx_std_20)
+
+add_library(vad STATIC
+  vad/agc2_rnn_vad.cc
+  vad/rnn_vad_weights.cc
+  vad/speech_probability_buffer.cc)
+target_include_directories(vad PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/vad)
+
+add_executable(vad_sim sim/vad/vad_sim.cc)
+target_link_libraries(vad_sim PRIVATE vad)
+
+add_executable(vad_check sim/vad/vad_check.cc)
+target_link_libraries(vad_check PRIVATE vad)
