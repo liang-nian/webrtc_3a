@@ -349,7 +349,8 @@ NetEQ 同时做抖动缓冲、丢包隐藏，配合 FEC/NACK，也可参与音�
 | 舒适噪声 | `modules/audio_processing/aec3/comfort_noise_generator.*` |
 | NS | `modules/audio_processing/ns/` |
 | AGC2 | `modules/audio_processing/agc2/` |
-| AGC2 RNN-VAD | `modules/audio_processing/agc2/rnn_vad/`、`modules/audio_processing/agc2/vad_wrapper.*` |
+| AGC2 RNN-VAD | `modules/audio_processing/agc2/rnn_vad/`、`modules/audio_processing/agc2/vad_wrapper.*`。笔记 `doc/vad.md` |
+| GMM-VAD | `common_audio/vad/`。笔记 `doc/gmm_vad.md`。不是 AGC2 那条 |
 | NetEQ | `modules/audio_coding/neteq/` |
 
 配置入口：`api/audio/audio_processing.h` 中 `AudioProcessing::Config`；AEC3 细参在 `api/audio/echo_canceller3_config.h`。

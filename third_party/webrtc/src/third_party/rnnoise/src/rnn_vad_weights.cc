@@ -1,12 +1,4 @@
-// Quantized AGC2 RNN-VAD weights.
-// Source: Chromium third_party/rnnoise src/rnn_vad_weights.cc
-// Commit: 63d42f6e6a54c9463fcb599001ca81ff2fd3dc8e (2026-11-07).
-// README.chromium in that tree says the rnnoise base revision is
-// 91ef401f4c3536c6de999ac609262691ec888c4c (BSD-3-Clause, Jean-Marc Valin /
-// Xiph) with WebRTC local modifications that add these int8 tables.
-// Consumed by WebRTC src eeb7e6beb2e20c5a273922fdf22b75a75cc28ad5.
-
-#include "rnn_vad_weights.h"
+#include "third_party/rnnoise/src/rnn_vad_weights.h"
 
 namespace rnnoise {
 
